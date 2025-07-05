@@ -1,0 +1,25 @@
+const video = document.getElementById('video');
+const canvas = document.getElementById('canvas');
+const statusText = document.getElementById('status');
+
+navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+  video.srcObject = stream;
+});
+
+setInterval(() => {
+  const ctx = canvas.getContext('2d');
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+  canvas.toBlob((blob) => {
+    const formData = new FormData();
+    formData.append('frame', blob);
+
+    fetch('/detect', {
+      method: 'POST',
+      body: formData,
+    })
+    .then((res) => res.json())
+    .then((data) => {
+      statusText.textContent = data.message;
+    });
+  }, 'image/jpeg');
+}, 1000);

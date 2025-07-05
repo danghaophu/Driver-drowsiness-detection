@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>AI Nhận Diện Ngủ Gật</title>
+  <style>
+    .container {
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+    }
+    #video {
+      border: 2px solid #ccc;
+    }
+    table {
+      border-collapse: collapse;
+      width: 300px;
+    }
+    th, td {
+      padding: 8px;
+      border: 1px solid #999;
+      text-align: left;
+    }
+    th {
+      background-color: #f2f2f2;
+    }
+  </style>
+</head>
+<body>
+  <h1>Giao diện AI Nhận Diện Ngủ Gật</h1>
+  <div class="container">
+    <div>
+      <video id="video" autoplay muted width="640" height="480"></video>
+      <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+    </div>
+
+    <div>
+      <h3>Bảng trạng thái</h3>
+      <table id="statusTable">
+        <thead>
+          <tr>
+            <th>Thời gian</th>
+            <th>Trạng thái</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Dữ liệu sẽ được thêm bằng JavaScript -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <script src="/static/script.js"></script>
+</body>
+</html>

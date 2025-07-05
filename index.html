@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Nhận diện ngủ gật</title>
+</head>
+<body>
+  <h2>Camera Nhận Diện Ngủ Gật</h2>
+  <video id="video" autoplay muted width="640" height="480"></video>
+  <p id="status">Đang kiểm tra...</p>
+  <canvas id="canvas" width="640" height="480" style="display:none;"></canvas>
+
+  <script>
+    const video = document.getElementById('video');
+    const canvas = document.getElementById('canvas');
+    const statusText = document.getElementById('status');
+
+    navigator.mediaDevices.getUserMedia({ video: true })
+      .then(stream => { video.srcObject = stream; });
+
+    setInterval(() => {
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+      canvas.toBlob(blob => {
+        const formData = new FormData();
+        formData.append('frame', blob);
+
+        fetch('/detect', { method: 'POST', body: formData })
+          .then(res => res.json())
+          .then(data => {
+            statusText.textContent = `Trạng thái: ${data.status}`;
+          });
+      }, 'image/jpeg');
+    }, 1000);
+  </script>
+</body>
+</html>
